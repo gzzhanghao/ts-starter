@@ -1,6 +1,7 @@
 {
   "name": "ts-starter",
   "version": "0.1.0",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "swc src -d dist",
     "dev": "swc src -d dist -w",
