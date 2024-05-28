@@ -1,4 +1,0 @@
-node_modules
-dist
-!.commitlintrc.cjs
-!.prettierrc.cjs
