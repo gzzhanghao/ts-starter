@@ -4,39 +4,27 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16'
-          registry-url: 'https://registry.npmjs.org/'
+          node-version: 20
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 9
 
-      - id: release
-        uses: gzzhanghao/pnpm-workspace-release-action@v1.0
+      - run: pnpm i --frozen-lockfile
+
+      - uses: changesets/action@v1
         with:
-          latest: ${{ github.event.ref == 'refs/heads/main' }}
-
-      - if: ${{ steps.release.outputs.release_created }}
-        run: pnpm install --frozen-lockfile
-
-      - if: ${{ steps.release.outputs.release_created }}
-        run: pnpm build
-
-      - if: ${{ steps.release.outputs.release_created }}
-        run: pnpm publish -r
+          publish: pnpm release
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

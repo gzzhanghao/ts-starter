@@ -1,7 +1,7 @@
 {
-  "private": true,
   "name": "ts-starter",
   "version": "0.1.0",
+  "private": true,
   "type": "module",
   "exports": {
     ".": {
@@ -26,6 +26,7 @@
     "dev:mjs": "npm run build:mjs -- -w",
     "lint": "eslint . && tsc --noEmit",
     "prepare": "husky",
+    "release": "concurrently npm:build npm:test npm:lint && pnpm publish -r",
     "swc": "swc src -d dist --strip-leading-paths --ignore '**/__tests__/**'",
     "test": "jest"
   },
@@ -58,5 +59,8 @@
     "prettier": "^3.3.2",
     "typescript": "^5.5.3",
     "typescript-eslint": "^7.16.0"
+  },
+  "engines": {
+    "pnpm": "^9"
   }
 }
