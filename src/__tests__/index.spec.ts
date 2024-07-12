@@ -1,5 +1,7 @@
+import { value } from '../index';
+
 describe('TS Starter', () => {
   it('runs', (): void => {
-    expect(true).toBeTruthy();
+    expect(value).toBeTruthy();
   });
 });
